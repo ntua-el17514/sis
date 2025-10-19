@@ -3,7 +3,7 @@
 ## Overall Repository Architecture
 Currently the repository contains 3 main components:
 1. The [bash scripts and unit tests](/home/nf/Documents/Dissertation/dissertation-code/bash). Those consist of the main bash scripts to download and make the executables of the desired Slurm version, as well as the scripts to run workloads using the virtual Slurm installation, and
-2. The [Quarter-socket experiments](https://github.com/ntua-el17514/dissertation-code/tree/master/quarter-socket-mpi) which include the scripts to test and run NAS Benchmarks on allocation of ¼-socket on ARIS supercomputer.
+2. The [Quarter-socket experiments](https://github.com/cslab-ntua/sis/blob/main/quarter-socket-mpi) which include the scripts to test and run NAS Benchmarks on allocation of ¼-socket on ARIS supercomputer.
 
 ## Repository File Hierarchy
 
@@ -137,10 +137,10 @@ Currently, `job_queue.txt` contains a path to simple scripts that validate SiS p
 ### Explanation of SLURM scripts
 
 #### Environment variables
-The [environment_variables.sh](https://github.com/ntua-el17514/dissertation-code/blob/master/bash/environment_variables.sh) script contains all variables used for pathmaking, parameter passing to downstream scripts (i.e. [boilerplate script](#boilerplate-script), [virtual SLURM script](#virtual-slurm-script) etc.) and system/hardware specific options.
+The [environment_variables.sh](https://github.com/cslab-ntua/sis/blob/main/bash/environment_variables.sh) script contains all variables used for pathmaking, parameter passing to downstream scripts (i.e. [boilerplate script](#boilerplate-script), [virtual SLURM script](#virtual-slurm-script) etc.) and system/hardware specific options.
 
 #### Boilerplate script
-The first script is the [boilerplate.sh](https://github.com/ntua-el17514/dissertation-code/blob/master/bash/aris_boilerplate.sh) script which is used to either download and make the SLURM executables in your preferred directory, or reconfigure your already installed SLURM directory.
+The first script is the [boilerplate.sh](https://github.com/cslab-ntua/sis/blob/main/bash/aris_boilerplate.sh) script which is used to either download and make the SLURM executables in your preferred directory, or reconfigure your already installed SLURM directory.
 
 OPTIONS
 \-i, \--install \-     Used for 1st time installation. It will create all executables and keys used for installation and later configurations.
@@ -163,11 +163,11 @@ The script does the following tasks:
 
 #### Submit script
 
-The [submit_v-slurm.sh](https://github.com/ntua-el17514/dissertation-code/blob/master/bash/submit_v-slurm.sh) is the script in charge of intermediating between the options set by the user in the [environment variables file](#environment-variables) and the [virtal cluster script](#virtual-slurm-script). Its only job is to export the variables to the sbatch script used to deploy SiS.
+The [submit_v-slurm.sh](https://github.com/cslab-ntua/sis/blob/main/bash/submit_v-slurm.sh) is the script in charge of intermediating between the options set by the user in the [environment variables file](#environment-variables) and the [virtal cluster script](#virtual-slurm-script). Its only job is to export the variables to the sbatch script used to deploy SiS.
 
 #### Virtual SLURM script
 
-The [v-slurm-lite.sh](https://github.com/ntua-el17514/dissertation-code/blob/master/bash/v-slurm-lite.sh) is the script initiating SiS. The script is tasked with running checks to see any missing configuration files, parsing the current configuration of the outer SLURM job submitted and starting the slurmctld and slurmd daemons for SiS based on the outer's SLURM job configuration.
+The [v-slurm-lite.sh](https://github.com/cslab-ntua/sis/blob/main/bash/v-slurm-lite.sh) is the script initiating SiS. The script is tasked with running checks to see any missing configuration files, parsing the current configuration of the outer SLURM job submitted and starting the slurmctld and slurmd daemons for SiS based on the outer's SLURM job configuration.
 
 This script is:
 1. Executing any user code on `prologue.sh`
@@ -191,14 +191,14 @@ In the `helpers.sh` script several *bash* functions are defined and then used to
 
 ## ¼-socket Experiments
 
-The 2nd part of this dissertation is the ¼-socket Experiments. The [quarter socket part](https://github.com/ntua-el17514/dissertation-code/tree/master/quarter-socket-mpi) of the repo dedicated in running NAS Benchmarks dedicating a quarter of the available CPUs of each socket. This leads to running 4 different benchmarks simulteanously on each run. The 8 total benchmark types can be combined in 70 different unordered sets to provide useful insights. For this dissertation all benchmarks have been of class D (more on bencmark classes on [NASA's webpage](https://www.nas.nasa.gov/software/npb.html)), and each one executed utilising 64 hardware threads.
+The 2nd part of this dissertation is the ¼-socket Experiments. The [quarter socket part](https://github.com/cslab-ntua/sis/blob/main/quarter-socket-mpi) of the repo dedicated in running NAS Benchmarks dedicating a quarter of the available CPUs of each socket. This leads to running 4 different benchmarks simulteanously on each run. The 8 total benchmark types can be combined in 70 different unordered sets to provide useful insights. For this dissertation all benchmarks have been of class D (more on bencmark classes on [NASA's webpage](https://www.nas.nasa.gov/software/npb.html)), and each one executed utilising 64 hardware threads.
 
 The scripts of the repository consist of:
-1. [`find_max_min.sh`](https://github.com/ntua-el17514/dissertation-code/blob/master/quarter-socket-mpi/find_max_min.sh): A script of helper functions to find minimum and maximum of a list and sorting the applications based on threads requested.
-2. [`maxnodes.sh`](https://github.com/ntua-el17514/dissertation-code/blob/master/quarter-socket-mpi/maxnodes.sh): A script to calculate the allocation of nodes per benchmark and generate the nodelist file which is then used by MPI to properly assign threads/CPUs per application. A benchmark application will be copied until the 4 applications have equal threads.
-3. [A submit script - `submit_cmp.sh`](https://github.com/ntua-el17514/dissertation-code/blob/master/quarter-socket-mpi/submit_cmp.sh) and the [actual execution script - `run_compact.sh`](https://github.com/ntua-el17514/dissertation-code/blob/master/quarter-socket-mpi/run_compact.sh) to get the times for compact (as in standalone) execution of a benchmark.
-4. Finally, following the previous logic, [A submit script - `submit_co.sh`](https://github.com/ntua-el17514/dissertation-code/blob/master/quarter-socket-mpi/submit_co.sh) and the [actual execution script - `run_cos.NAS_NAS.sh`](https://github.com/ntua-el17514/dissertation-code/blob/master/quarter-socket-mpi/run_cos.NAS_NAS.sh) to get the times for co-execution of the NAS benchmarks. 
+1. [`find_max_min.sh`](https://github.com/cslab-ntua/sis/blob/main/quarter-socket-mpi/find_max_min.sh): A script of helper functions to find minimum and maximum of a list and sorting the applications based on threads requested.
+2. [`maxnodes.sh`](https://github.com/cslab-ntua/sis/blob/main/quarter-socket-mpi/maxnodes.sh): A script to calculate the allocation of nodes per benchmark and generate the nodelist file which is then used by MPI to properly assign threads/CPUs per application. A benchmark application will be copied until the 4 applications have equal threads.
+3. [A submit script - `submit_cmp.sh`](https://github.com/cslab-ntua/sis/blob/main/quarter-socket-mpi/submit_cmp.sh) and the [actual execution script - `run_compact.sh`](https://github.com/cslab-ntua/sis/blob/main/quarter-socket-mpi/run_compact.sh) to get the times for compact (as in standalone) execution of a benchmark.
+4. Finally, following the previous logic, [A submit script - `submit_co.sh`](https://github.com/cslab-ntua/sis/blob/main/quarter-socket-mpi/submit_co.sh) and the [actual execution script - `run_cos.NAS_NAS.sh`](https://github.com/cslab-ntua/sis/blob/main/quarter-socket-mpi/run_cos.NAS_NAS.sh) to get the times for co-execution of the NAS benchmarks. 
 
-The raw data can be found in the [data directory](https://github.com/ntua-el17514/dissertation-code/tree/master/quarter-socket-mpi/data) for validation and cross-examination reasons.
+The raw data can be found in the [data directory](https://github.com/cslab-ntua/sis/blob/main/quarter-socket-mpi/data) for validation and cross-examination reasons.
 
-If you wish to compile the NAS benchmarks onto your own directory follow [these instructions](https://www.nas.nasa.gov/software/npb.html), otherwise, **replace LOG_PATH variable and mpirun paths in [compact](https://github.com/ntua-el17514/dissertation-code/blob/master/quarter-socket-mpi/run_compact.sh) and/or [co-location](https://github.com/ntua-el17514/dissertation-code/blob/master/quarter-socket-mpi/run_cos.NAS_NAS.sh) scripts with your own path(s)**.
+If you wish to compile the NAS benchmarks onto your own directory follow [these instructions](https://www.nas.nasa.gov/software/npb.html), otherwise, **replace LOG_PATH variable and mpirun paths in [compact](https://github.com/cslab-ntua/sis/blob/main/quarter-socket-mpi/run_compact.sh) and/or [co-location](https://github.com/cslab-ntua/sis/blob/main/quarter-socket-mpi/run_cos.NAS_NAS.sh) scripts with your own path(s)**.
