@@ -1,0 +1,6 @@
+# Insert the jobs for SiS here. Every job must be on a separate file
+# using this format: <path/to/job/> <delay>, where path and delay 
+# are separated by a tab
+
+# Example Usage
+./mpi/vMpiJob.sh    5
