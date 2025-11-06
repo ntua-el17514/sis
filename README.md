@@ -1,7 +1,7 @@
 # Slurm-in-Slurm (SiS) & Quarter-Socket Workloads
 
 ## Overall Repository Architecture
-Currently the repository contains 3 main components:
+Currently the repository contains 2 main components:
 1. The [bash scripts and unit tests](/home/nf/Documents/Dissertation/dissertation-code/bash). Those consist of the main bash scripts to download and make the executables of the desired Slurm version, as well as the scripts to run workloads using the virtual Slurm installation, and
 2. The [Quarter-socket experiments](https://github.com/cslab-ntua/sis/blob/main/quarter-socket-mpi) which include the scripts to test and run NAS Benchmarks on allocation of ¼-socket on ARIS supercomputer.
 
